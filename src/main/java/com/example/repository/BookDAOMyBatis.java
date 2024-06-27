@@ -1,6 +1,7 @@
 package com.example.repository;
 
 import com.example.entity.BookDTO;
+import com.example.entity.ReviewDTO;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
@@ -13,6 +14,21 @@ public class BookDAOMyBatis { // 리팩토링 => 중앙집중식 관리, 코드�
             }
         // try 블록이 종료되면 session은 자동으로 close 됩니다.
        }
+
+    public List<BookDTO> bookListSort(String key){
+        try(SqlSession session=MyBatisUtil.openSession()){ // close()
+            return session.selectList("bookListSort", key);
+        }
+        // try 블록이 종료되면 session은 자동으로 close 됩니다.
+    }
+
+    public List<BookDTO> bookListSearch(String keyword){
+        try(SqlSession session=MyBatisUtil.openSession()){ // close()
+            return session.selectList("bookListSearch", keyword); // 제목
+        }
+        // try 블록이 종료되면 session은 자동으로 close 됩니다.
+    }
+
 
        public int bookDelete(int num){
              try(SqlSession session=MyBatisUtil.openSession()){
@@ -39,9 +55,28 @@ public class BookDAOMyBatis { // 리팩토링 => 중앙집중식 관리, 코드�
 
     public int bookUpdate(BookDTO dto) {
         try(SqlSession session=MyBatisUtil.openSession()){
-            int cnt=session.insert("bookUpdate", dto);
+            int cnt=session.update("bookUpdate", dto);
             session.commit(); // 완료
             return cnt;
+        }
+    }
+
+    public int reviewAdd(ReviewDTO dto){
+         try(SqlSession session=MyBatisUtil.openSession()){
+            int cnt=session.insert("reviewAdd", dto);
+            session.commit(); // 완료
+            return cnt;
+        }
+    }
+
+    public List<ReviewDTO> getByNumReviews(int book_num) {
+        try (SqlSession session = MyBatisUtil.openSession()) {
+            return session.selectList("getByNumReviews", book_num);
+        }
+    }
+    public Double getAvgRating(int book_num){
+        try (SqlSession session = MyBatisUtil.openSession()) {
+            return session.selectOne("getAvgRating", book_num);
         }
     }
 }

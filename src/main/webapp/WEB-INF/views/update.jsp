@@ -3,6 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="cpath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +22,7 @@ pageEncoding="UTF-8"%>
       <div class="card">
         <div class="card-header">Book Update</div>
         <div class="card-body">
-                <form action="/MF01/updatePost" method="post">
+                <form action="${cpath}/updatePost" method="post">
                     <input type="hidden" name="num" id="num" value="${book.num}"/>
                     <div class="form-group">
                       <label for="title">제목:</label>
@@ -41,7 +42,7 @@ pageEncoding="UTF-8"%>
                      </div>
                      <button type="submit" class="btn btn-primary btn-sm">수정</button>
                      <button type="reset" class="btn btn-danger btn-sm">취소</button>
-                     <button type="button" class="btn btn-info btn-sm" onclick="location.href='/MF01/list'">목록</button>
+                     <button type="button" class="btn btn-info btn-sm" onclick="location.href='${cpath}/list'">목록</button>
                   </form>
         </div>
         <div class="card-footer">인프런_마프 1탄_박매일</div>

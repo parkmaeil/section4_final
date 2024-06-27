@@ -5,8 +5,21 @@
 <mapper namespace="com.example.repository.BookDAO">
 
      <select id="bookList" resultType="com.example.entity.BookDTO">
-         select * from book order by title asc
+         select b.num, b.title, b.price, b.author, b.page, count(r.book_num) as cnt from book b
+         left join review r
+         on b.num=r.book_num group by num;
      </select>
+
+    <select id="bookListSort" resultType="com.example.entity.BookDTO">
+        select * from book order by ${key} desc
+    </select>
+
+    <select id="bookListSearch" resultType="com.example.entity.BookDTO">
+        select * from book where
+        title like CONCAT('%', #{keyword}, '%')
+        or
+        author like CONCAT('%', #{keyword}, '%')
+    </select>
 
     <delete id="bookDelete">
         delete from book where num=#{num}
@@ -29,5 +42,20 @@
         page=#{page}
         where num=#{num}
     </update>
+
+    <insert id="reviewAdd" parameterType="com.example.entity.ReviewDTO">
+         insert into review(book_num, rating, content)
+         values(#{book_num}, #{rating}, #{content})
+    </insert>
+
+    <select id="getByNumReviews" resultType="com.example.entity.ReviewDTO">
+         select * from review where book_num=${book_num}
+         order by created_at desc
+    </select>
+
+    <select id="getAvgRating" resultType="Double">
+        select avg(rating) from review
+        where book_num=#{book_num}
+    </select>
 
 </mapper>

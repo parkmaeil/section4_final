@@ -3,6 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="cpath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +22,7 @@ pageEncoding="UTF-8"%>
       <div class="card">
         <div class="card-header">등록화면</div>
         <div class="card-body">
-                <form action="/MF01/registerPost" method="post">
+                <form action="${cpath}/registerPost" method="post">
                     <div class="form-group">
                       <label for="title">제목:</label>
                       <input type="text" class="form-control" placeholder="Enter title" id="title" name="title">

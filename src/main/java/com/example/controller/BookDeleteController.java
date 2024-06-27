@@ -18,12 +18,14 @@ public class BookDeleteController extends HttpServlet{
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp)
                                                            throws ServletException, IOException {
+         // Server Context Path 얻기
+          String cpath=req.getContextPath();
           int num=Integer.parseInt(req.getParameter("num")); // "3"->3
           BookDAOMyBatis dao=new BookDAOMyBatis();
           int cnt=dao.bookDelete(num);
           if(cnt>0){
                // 다시 리스트페이지로 이동(redirect)
-              resp.sendRedirect("/MF01/list");
+              resp.sendRedirect(cpath+"/list"); // /s4_final/list
           }else{
               System.out.println("삭제실패");
           }

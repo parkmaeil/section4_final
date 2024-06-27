@@ -39,7 +39,12 @@ public class BookDAO {
                   String author=rs.getString("author");
                    int page=rs.getInt("page");
                    // 묶고(DTO)->담고(List)
-                   BookDTO dto=new BookDTO(num, title, price, author, page);
+                   BookDTO dto=new BookDTO();
+                   dto.setNum(num);
+                   dto.setTitle(title);
+                   dto.setPrice(price);
+                   dto.setAuthor(author);
+                   dto.setPage(page);
                    //dto.setNum(num);
                    list.add(dto);
              }

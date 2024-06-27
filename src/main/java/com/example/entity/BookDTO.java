@@ -14,5 +14,5 @@ public class BookDTO {
     private int price;
     private String author;
     private int page;
-
+    private int cnt;
 }
