@@ -27,6 +27,31 @@ pageEncoding="UTF-8"%>
         color: #1391a0; /* Slightly darker for hover effect */
       }
     </style>
+    <script>
+       function reviewDel(review_id){
+            // 1. GET
+            // location.href="${cpath}/reviewRemove?review_id="+review_id+"&num="+num;
+            // 2. form(POST)
+            //document.getElementById("review_id").value=review_id;
+            //let form=document.getElementById("myForm");
+            //form.action="${cpath}/reviewRemove"; // 경로상의 이점...
+            //form.submit();
+            // 3. ajax : 비동기 전송 -> jQuery (X)
+            // json으로 전송을 하고 받을때도 json으로 받는게 원칙 => {      }
+            fetch("http://localhost:8081/s4_final/reviewRemoveRest?review_id="+review_id)
+            .then(resp=>{ // 1(text)
+                   //console.log(resp.text()); // ?
+                   if(resp.ok){ // true
+                       location.href="${cpath}/view?num=${book.num}";
+                   }else{
+                       throw new Error("error");
+                   }
+             })
+            .catch(error=>{
+               console.log(error);
+              });
+       }
+    </script>
    </head>
 <body>
 
@@ -63,14 +88,18 @@ pageEncoding="UTF-8"%>
         </div>
   <!-- Section for existing reviews -->
      <div id="reviews-list" class="mt-4">
-         <h5>리뷰리스트(<span class="badge badge-warning">평균평점 : ${ratingAvg}</span>)</h5>
+         <h5>리뷰리스트(<span class="badge badge-warning">평균평점 : ${ratingAvg}/5.0</span>)</h5>
          <!-- 리뷰 리스트가 비어있지 않은 경우 출력 -->
          <c:if test="${not empty reviews}">
              <div class="list-group">
                  <c:forEach var="review" items="${reviews}">
                      <div class="list-group-item list-group-item-action flex-column align-items-start">
-                         <div class="d-flex w-100 justify-content-between">
+                         <div class="d-flex justify-content-between">
                              <small class="text-muted">작성일: <fmt:formatDate value="${review.created_at}" pattern="yyyy-MM-dd" /></small>
+                            <div>
+                              <button class="btn btn-sm btn-info">수정</button>
+                              <button class="btn btn-sm btn-warning" onclick="reviewDel(${review.review_id})">삭제</button>
+                            </div>
                              <hr/>
                          </div>
                          <p class="mb-1">${fn:replace(review.content,replaceChar,"<br/>")}</p>
@@ -116,6 +145,7 @@ pageEncoding="UTF-8"%>
    </div>
     <form id="myForm" method="post" action="">
          <input type="hidden" name="num" id="num" value="${book.num}"/>
+         <input type="hidden" name="review_id" id="review_id" value=""/>
     </form>
  <script>
        document.querySelector(".card-body").addEventListener("click", function(e){

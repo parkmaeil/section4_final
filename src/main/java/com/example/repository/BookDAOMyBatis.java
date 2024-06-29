@@ -79,4 +79,13 @@ public class BookDAOMyBatis { // 리팩토링 => 중앙집중식 관리, 코드�
             return session.selectOne("getAvgRating", book_num);
         }
     }
+
+    public int reviewRemove(int review_id){
+        try(SqlSession session=MyBatisUtil.openSession()){
+            int cnt=session.delete("reviewRemove", review_id);
+            session.commit(); // 완료
+            return cnt;
+        }
+    }
+
 }

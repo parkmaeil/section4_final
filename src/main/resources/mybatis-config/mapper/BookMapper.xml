@@ -58,4 +58,8 @@
         where book_num=#{book_num}
     </select>
 
+    <delete id="reviewRemove">
+        delete from review
+        where review_id=#{review_id}
+    </delete>
 </mapper>

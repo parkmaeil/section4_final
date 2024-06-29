@@ -29,10 +29,11 @@ public class BookViewController extends HttpServlet {
         req.setAttribute("reviews", reviews);
         // 평균평점
         Double ratingAvg=dao.getAvgRating(num);
+
         if(ratingAvg!=null){
            req.setAttribute("ratingAvg", ratingAvg);
         }else{
-            req.setAttribute("ratingAvg", 0.0);
+            req.setAttribute("ratingAvg", "평점이 없습니다."); // 0.0
         }
 
         RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/view.jsp");
